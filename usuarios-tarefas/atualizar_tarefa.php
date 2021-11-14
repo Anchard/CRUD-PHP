@@ -1,5 +1,15 @@
 <?php
 include 'connection.php';
+
+$id = $_GET['id'];
+$sql = "select nome, titulo from `tarefas` inner join `usuarios` on `tarefas`.fk_usuario = `usuarios`.id where `tarefas`.id = '$id'";
+
+$result = mysqli_query($con, $sql);
+$row = mysqli_fetch_assoc($result);
+$titulo = $row['titulo'];
+$nome = $row['nome'];
+
+
 if (isset($_POST['enviar-tarefa'])) {
     $titulo = $_POST['titulo-tarefa'];
     $fk_usuario = $_POST['fk-nome-usuario'];
@@ -8,8 +18,8 @@ if (isset($_POST['enviar-tarefa'])) {
     $result = mysqli_query($con, $sql);
     $row = $result->fetch_assoc();
     $fk_usuario = $row['id'];
-    
-    $sql = "insert into `tarefas`(titulo, fk_usuario) values('$titulo','$fk_usuario')";
+
+    $sql = "update `tarefas` set titulo = '$titulo', fk_usuario = '$fk_usuario' where id = '$id'";
     $result = mysqli_query($con, $sql);
 
     if ($result) {
@@ -39,13 +49,13 @@ if (isset($_POST['enviar-tarefa'])) {
         <form method="POST">
             <div class="mb-3">
                 <label class="form-label">Título da tarefa</label>
-                <input type="nome" class="form-control" name="titulo-tarefa">
+                <input type="nome" class="form-control" name="titulo-tarefa" value="<?php echo($titulo);?>">
             </div>
             <div class="mb-3">
                 <label class="form-label">Pessoa que irá realizar a tarefa</label>
-                <input type="nome" class="form-control" name="fk-nome-usuario">
+                <input type="nome" class="form-control" name="fk-nome-usuario" value="<?php echo($nome);?>">
             </div>
-            <button type="submit" class="btn btn-primary" name="enviar-tarefa">Enviar</button>
+            <button type="submit" class="btn btn-primary" name="enviar-tarefa">Atualizar</button>
         </form>
     </div>
 </body>

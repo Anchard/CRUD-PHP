@@ -1,9 +1,16 @@
 <?php
 include 'connection.php';
+
+$id = $_GET['id'];
+$sql = "select nome from `usuarios` where id = '$id'";
+$result = mysqli_query($con, $sql);
+$row = mysqli_fetch_assoc($result);
+$nome = $row['nome'];
+
 if (isset($_POST['enviar-usuario'])) {
     $nome = $_POST['nome-usuario'];
 
-    $sql = "insert into `usuarios`(nome) values('$nome')";
+    $sql = "update `usuarios` set nome = '$nome' where id = '$id'";
     $result = mysqli_query($con, $sql);
 
     if ($result) {
@@ -33,9 +40,9 @@ if (isset($_POST['enviar-usuario'])) {
         <form method="POST">
             <div class="mb-3">
                 <label class="form-label">Escreva o nome do usuário</label>
-                <input type="nome" class="form-control" name="nome-usuario">
+                <input type="nome" class="form-control" name="nome-usuario" value="<?php echo($nome);?>">
             </div>
-            <button type="submit" class="btn btn-primary" name="enviar-usuario">Enviar</button>
+            <button type="submit" class="btn btn-primary" name="enviar-usuario">Atualizar</button>
         </form>
     </div>
 </body>

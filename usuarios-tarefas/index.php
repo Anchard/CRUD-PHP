@@ -24,6 +24,7 @@ include 'connection.php';
                 <tr>
                     <th scope="col">id</th>
                     <th scope="col">Nome</th>
+                    <th scope="col">Operações</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,22 +37,27 @@ include 'connection.php';
                         $id = $row['id'];
                         $nome = $row['nome'];
 
-                        echo '<tr>
-                        <th scope="row">' . $id . '</th>
-                        <td>' . $nome . '</td>
+                        echo
+                        '<tr>
+                            <th scope="row">' . $id . '</th>
+                            <td>' . $nome . '</td>
+                            <td>
+                                <button class="btn btn-primary"><a href="atualizar_usuario.php?id=' . $id . '" class="text-light">Atualizar</a></button>
+                                <button class="btn btn-danger"><a href="deletar.php?id=' . $id . '&table=1" class="text-light">Deletar</a></button>
+                            </td>
                         </tr>';
                     }
                 }
                 ?>
 
-                
                 <table class="table">
-                <h2 class="mt-5">Tabela de tarefas</h2>
+                    <h2 class="mt-5">Tabela de tarefas</h2>
                     <thead class="table-dark">
                         <tr>
                             <th scope="col">id</th>
                             <th scope="col">fk</th>
                             <th scope="col">Título</th>
+                            <th scope="col">Operações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,10 +71,15 @@ include 'connection.php';
                                 $fk_usuario = $row['fk_usuario'];
                                 $titulo = $row['titulo'];
 
-                                echo '<tr>
-                                <th scope="row">' . $id . '</th>
-                                <td>' . $fk_usuario . '</td>
-                                <td>' . $titulo . '</td>
+                                echo
+                                '<tr>
+                                    <th scope="row">' . $id . '</th>
+                                    <td>' . $fk_usuario . '</td>
+                                    <td>' . $titulo . '</td>
+                                    <td>
+                                        <button class="btn btn-primary"><a href="atualizar_tarefa.php?id=' . $id . '" class="text-light">Atualizar</a></button>
+                                        <button class="btn btn-danger"><a href="deletar.php?id=' . $id . '&table=2" class="text-light">Deletar</a></button>
+                                    </td>
                                 </tr>';
                             }
                         }
@@ -78,7 +89,7 @@ include 'connection.php';
                 </table>
 
                 <table class="table">
-                <h2 class="mt-5">Tabela de usuários e suas tarefas</h2>
+                    <h2 class="mt-5">Tabela de usuários e suas tarefas</h2>
                     <thead class="table-dark">
                         <tr>
                             <th scope="col">Usuário</th>
@@ -88,7 +99,7 @@ include 'connection.php';
                     <tbody>
 
                         <?php
-                        $sql = "select usuarios.nome, tarefas.titulo from `tarefas` inner join `usuarios` on usuarios.id = tarefas.fk_usuario order by nome asc";
+                        $sql = "select usuarios.nome, tarefas.titulo from `tarefas` inner join `usuarios` on usuarios.id = tarefas.fk_usuario order by nome, titulo asc";
                         $result = mysqli_query($con, $sql);
                         if ($result) {
                             while ($row = mysqli_fetch_assoc($result)) {
@@ -106,7 +117,6 @@ include 'connection.php';
                     </tbody>
                 </table>
     </div>
-
 </body>
 
 </html>
